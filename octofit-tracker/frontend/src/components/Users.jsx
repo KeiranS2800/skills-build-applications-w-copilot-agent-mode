@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
-import { fetchCollection } from '../api/client';
+import { normalizeCollection } from '../api/client';
 
-const usersEndpoint = '/api/users/';
+const usersEndpoint = import.meta.env.VITE_CODESPACE_NAME
+  ? `https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/users/`
+  : 'http://localhost:8000/api/users/';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -13,8 +15,13 @@ const Users = () => {
 
     const loadUsers = async () => {
       try {
-        const data = await fetchCollection('users');
-        void usersEndpoint;
+        const response = await fetch(usersEndpoint);
+        if (!response.ok) {
+          throw new Error('Unable to load users');
+        }
+
+        const payload = await response.json();
+        const data = normalizeCollection(payload);
         if (isActive) {
           setUsers(data);
         }

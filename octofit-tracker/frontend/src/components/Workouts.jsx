@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
-import { fetchCollection } from '../api/client';
+import { normalizeCollection } from '../api/client';
 
-const workoutsEndpoint = '/api/workouts/';
+const workoutsEndpoint = import.meta.env.VITE_CODESPACE_NAME
+  ? `https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/workouts/`
+  : 'http://localhost:8000/api/workouts/';
 
 const Workouts = () => {
   const [workouts, setWorkouts] = useState([]);
@@ -13,8 +15,13 @@ const Workouts = () => {
 
     const loadWorkouts = async () => {
       try {
-        const data = await fetchCollection('workouts');
-        void workoutsEndpoint;
+        const response = await fetch(workoutsEndpoint);
+        if (!response.ok) {
+          throw new Error('Unable to load workouts');
+        }
+
+        const payload = await response.json();
+        const data = normalizeCollection(payload);
         if (isActive) {
           setWorkouts(data);
         }
