@@ -17,6 +17,9 @@ const codespaceName = process.env.CODESPACE_NAME?.trim();
 const baseUrl = codespaceName
     ? `https://${codespaceName}-8000.app.github.dev`
     : `http://localhost:${port}`;
+app.get('/', (_req, res) => {
+    res.json({ message: 'Octofit Tracker API', baseUrl });
+});
 app.get('/api/health', (_req, res) => {
     res.json({ status: 'ok', service: 'octofit-backend', baseUrl });
 });
