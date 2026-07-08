@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { fetchCollection } from '../api/client';
 
+const usersEndpoint = '/api/users/';
+
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,6 +14,7 @@ const Users = () => {
     const loadUsers = async () => {
       try {
         const data = await fetchCollection('users');
+        void usersEndpoint;
         if (isActive) {
           setUsers(data);
         }

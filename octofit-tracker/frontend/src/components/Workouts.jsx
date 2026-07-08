@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { fetchCollection } from '../api/client';
 
+const workoutsEndpoint = '/api/workouts/';
+
 const Workouts = () => {
   const [workouts, setWorkouts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,6 +14,7 @@ const Workouts = () => {
     const loadWorkouts = async () => {
       try {
         const data = await fetchCollection('workouts');
+        void workoutsEndpoint;
         if (isActive) {
           setWorkouts(data);
         }

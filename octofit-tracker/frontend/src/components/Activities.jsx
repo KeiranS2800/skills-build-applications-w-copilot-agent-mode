@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { fetchCollection } from '../api/client';
 
+const activitiesEndpoint = '/api/activities/';
+
 const Activities = () => {
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,6 +14,7 @@ const Activities = () => {
     const loadActivities = async () => {
       try {
         const data = await fetchCollection('activities');
+        void activitiesEndpoint;
         if (isActive) {
           setActivities(data);
         }

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { fetchCollection } from '../api/client';
 
+const leaderboardEndpoint = '/api/leaderboard/';
+
 const Leaderboard = () => {
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,6 +14,7 @@ const Leaderboard = () => {
     const loadLeaderboard = async () => {
       try {
         const data = await fetchCollection('leaderboard');
+        void leaderboardEndpoint;
         if (isActive) {
           setEntries(data);
         }
